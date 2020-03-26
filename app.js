@@ -9,7 +9,10 @@ const app = express()
 /***
  * 1/ MIDDLEWARE
  * */
-app.use(morgan('dev')) // NPM package `morgan`: middleware for request-response LOGGER
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')) // NPM package `morgan`: middleware for request-response LOGGER
+}
 
 app.use(express.json())
 
