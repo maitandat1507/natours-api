@@ -12,7 +12,7 @@ mongoose.connect(DB, {
   useCreateIndex: true,
   useFindAndModify: false
 }).then(con => {
-  console.log(con.connections)
+  console.log(con.connections) // ---- show ALL list properties of CONNECTION
   console.log('DB connect successfully!!!')
 })
 
