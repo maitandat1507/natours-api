@@ -51,6 +51,17 @@ exports.getAllTours = async (req, res) => {
     }
 
 
+    // 3) Field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ')
+
+      // ex: query.select('name duration price')
+      query = query.select(fields)
+    } else {
+      query = query.select('-__v'); // exclude field named '__v' (which created automatically by Mongo)
+    }
+
+
     // ---- EXECUTE QUERY
     const tours = await query
 
