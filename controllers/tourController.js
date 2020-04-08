@@ -62,14 +62,24 @@ exports.getAllTours = async (req, res) => {
     }
 
 
+    // 4) Pagination
+    const page = req.query.page * 1 || 1 // convert str to number
+    const limit = req.query.limit * 1 || 100
+    const skip =  (page - 1) * limit
+
+    // page=2&limit=10, 1-10 page 1, 11-20 page 2, 21-30 page 3
+    // ex: query = query.skip(2).limit(10)
+    query = query.skip(skip).limit(limit)
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments() // return number of Documents
+
+      if (skip >= numTours) throw new Error('This page does not exists') // throw here, because this in try{} section --> will jump to catch() handler
+    }
+
+
     // ---- EXECUTE QUERY
     const tours = await query
-
-    // const query = await Tour.find()
-    //   .where('duration',)
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy')
 
 
     // ---- SEND RESPONSE
