@@ -53,7 +53,11 @@ const tourSchema = new mongoose.Schema({
     default: Date.now(),
     select: false,
   },
-  startDates: [Date]
+  startDates: [Date],
+  secretTour: {
+    type: Boolean,
+    default: false
+  }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
@@ -64,7 +68,7 @@ tourSchema.virtual('durationWeeks').get(function() {
 })
 
 
-// DOCUMENT MIDDLEWARE: runs BEFORE .save() and .create()    (NOT AFFECTED for .insert())
+// type 1. DOCUMENT MIDDLEWARE: runs BEFORE .save() and .create()    (NOT AFFECTED for .insert())
 tourSchema.pre('save', function(next) {
   // console.log(this) // `this` - point to currently process document
 
@@ -81,6 +85,31 @@ tourSchema.pre('save', function(next) {
 //   console.log(doc)
 //   next()
 // })
+
+
+// type 2. QUERY MIDDLEWARE: run BEFORE .find()
+// tourSchema.pre('find', function(next) {
+tourSchema.pre(/^find/, function(next) { // using Regx ^find   ---> will affect to all query event, not only find(), but also findOne, findBy...
+  this.find({ secretTour: {$ne: true } }) // `$ne` - not equal
+
+  this.start = Date.now()
+  next()
+})
+
+// -------- when use /^find/ Regx above, dont need define the below block code anymore :D just for ref
+// tourSchema.pre('findOne', function (next) {
+//   this.find({ secretTour: { $ne: true } }); // `$ne` - not equal
+//   next();
+// });
+
+// .post: run right AFTER .find()
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(`Query took ${Date.now() - this.start} miliseconds`) // ex: output "Query took 179 miliseconds"g
+
+  console.log(docs)
+  next()
+})
+
 
 const Tour = mongoose.model('Tour', tourSchema)
 
