@@ -105,8 +105,15 @@ tourSchema.pre(/^find/, function(next) { // using Regx ^find   ---> will affect 
 // .post: run right AFTER .find()
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} miliseconds`) // ex: output "Query took 179 miliseconds"g
+  next()
+})
 
-  console.log(docs)
+
+// type 3. AGGREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function(next) {
+  this.pipeline().unshift({ $match: { secretTour: {$ne: true} } })
+
+  console.log(this.pipeline())
   next()
 })
 
