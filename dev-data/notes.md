@@ -20,3 +20,10 @@ Ex:
 
 ### Lec 108: 
 ex: validate `priceDiscount` must less than `price`
+
+
+### Lec 110: ndb - debug tools
+Most useful is:
+- F9: Step
+- F11: Step out (if not interesting in current fn())
+- F8: Go ahead and stop!!!
