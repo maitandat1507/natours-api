@@ -20,10 +20,21 @@ Ex:
 
 ### Lec 108: 
 ex: validate `priceDiscount` must less than `price`
-
+------
 
 ### Lec 110: ndb - debug tools
 Most useful is:
 - F9: Step
 - F11: Step out (if not interesting in current fn())
 - F8: Go ahead and stop!!!
+------
+
+### Lec 111 + 112: Overview Error Handling
+2 types:
+- OPERATIONAL errors:
+  * ex: invalid path accessed, failed to conntect to server, request timeout, etc.
+- PROGRAMMING errors:
+  * ex: using `await` without `async`, using `req.query` instead of `req.body`, etc.
+------
+
+### Lec 113: Global error handling
