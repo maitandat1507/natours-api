@@ -63,3 +63,14 @@ app.use() with 4 params ---> Express automatically know that is ERROR HANDLING M
 ### Lec 114: Better Errors & Refactoring
 
 keyword: stack trace
+
+------
+
+### Lec 115:
+
+All magic happen in this refactorred code:
+
+```javascript
+// utils/catchAsync.js
+fn(req, res, next).catch(next)
+```
